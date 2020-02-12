@@ -39,28 +39,8 @@ bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sig
 	return true;
 }
 
-float applyGMask(float* graph, int point, int n, float* H, int Hsize){
-	int g_center = Hsize/2;
-	int p = point - g_center;
-	float ret = 0;
-	for(int i = 0; i < Hsize; i++){
-		if(p > 0 && p < n){
-			ret += H[i]*graph[p];
-		}
-		p++;	
-	}
-	return ret;
-}
-
-float* correlate(float* graph, int n, float* H, int Hsize){
-	float* ret = new float[n];
-	for(int i = 0; i < n; i++){
-		ret[i] = applyGMask(graph,i,n,H,Hsize);
-	}
-	return ret;
-}
-
 int main(int argc, char** argv){
+
 	char* infile;
 	char* outfile;
 	int sigma;
@@ -72,10 +52,9 @@ int main(int argc, char** argv){
 	}
 
 	int Hsize = 5*sigma;
-	float* H = new float[Hsize];
-	Gauss((float)sigma,Hsize,H);
+	float* H = Gauss1D((float)sigma,Hsize);
 	g_data = ReadGraph(infile,n);
-	float* g_out = correlate(g_data,n,H,Hsize);
+	float* g_out = correlate1D(g_data,n,H,Hsize);
 	WriteGraph(outfile,g_out,n);
 	
 	return 0;
