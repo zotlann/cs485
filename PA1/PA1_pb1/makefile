@@ -1,11 +1,11 @@
 CC=g++
 LIBS=
 
-CXXFLAGS=-g -Wall -Wformat -std=c++0x $(shell pkg-config --cflags opencv4)
+CXXFLAGS=-g -Wall -Wformat -Wno-deprecated $(shell pkg-config --cflags opencv4)
 LIBS = $(shell pkg-config --libs opencv4)
 
 # .o Compilation
-O_FILES=main.o image_io.o graph_io.o gauss.o
+O_FILES=main.o image_io.o graph_io.o gauss.o image_util.o
 
 # Point to includes of local directories
 INCLUDES=-I../include
@@ -19,6 +19,8 @@ image_io.o: ../src/image_io.cpp
 	$(CC) $(CXXFLAGS) -c ../src/image_io.cpp -o image_io.o $(INCLUDES)
 graph_io.o: ../src/graph_io.cpp
 	$(CC) $(CXXFLAGS) -c ../src/graph_io.cpp -o graph_io.o $(INCLUDES)
+image_util.o: ../src/image_util.cpp
+	$(CC) $(CXXFLAGS) -c ../src/image_util.cpp -o image_util.o $(INCLUDES)
 gauss.o: ../src/gauss.cpp
 	$(CC) $(CXXFLAGS) -c ../src/gauss.cpp -o gauss.o $(INCLUDES)
 clean:
