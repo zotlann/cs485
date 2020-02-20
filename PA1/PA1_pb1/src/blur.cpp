@@ -40,22 +40,21 @@ bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sig
 }
 
 int main(int argc, char** argv){
-
+	
 	char* infile;
 	char* outfile;
 	int sigma;
-	float* g_data;
-	int n;
+	int** input_image;
+	int** output_image;
+	int w,h,q;
 	
 	if(!parseCmdArgs(argc, argv, infile, outfile, sigma)){
 		return 1;
 	}
 
-	int Hsize = 5*sigma;
-	float* H = Gauss1D((float)sigma,Hsize);
-	g_data = ReadGraph(infile,n);
-	float* g_out = correlate1D(g_data,n,H,Hsize);
-	WriteGraph(outfile,g_out,n);
-	
+	ReadImage(infile, &input_image, w, h, q);
+	output_image = smoothImage(input_image, w, h, (float)sigma);	
+	WriteImage(outfile, output_image, q, h, q);
+
 	return 0;
 }

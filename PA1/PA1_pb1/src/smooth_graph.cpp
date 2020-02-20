@@ -1,4 +1,3 @@
-#include "image_io.h"
 #include "graph_io.h"
 #include "gauss.h"
 #include <iostream>
@@ -44,19 +43,19 @@ int main(int argc, char** argv){
 	char* infile;
 	char* outfile;
 	int sigma;
-	int** input_image;
-	int** output_image;
-	int w,h,q;
-	
+	float* input_graph;
+	float* output_graph;
+	int n;
+
+		
 	if(!parseCmdArgs(argc, argv, infile, outfile, sigma)){
 		return 1;
 	}
 
-	ReadImage(infile, &input_image, w, h, q);
-	int Hsize = 5*sigma;
-	float* H = Gauss1D((float)sigma,Hsize);
-	output_image = smoothImage(input_image, w, h, (float)sigma);	
-	WriteImage(outfile, output_image, q, h, q);
+	input_graph = ReadGraph(infile, n);
+	output_graph = smoothGraph(input_graph, n, (float)sigma);
+
+	WriteGraph(outfile,output_graph,n);
 
 	return 0;
 }

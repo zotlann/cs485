@@ -5,7 +5,7 @@ float* Gauss1D(float s, int Hsize){
 	float cst,tssq,x,sum;
 	float* H = new float[Hsize];
 
-	cst=1./(s*sqrt(2.0*pi));
+	cst=1./(s*sqrt(2.0*gpi));
 	tssq=1./(2*s*s);
 	sum = 0;
 	for(int i = 0; i < Hsize; i++){
@@ -73,4 +73,33 @@ int** smoothImageSeparated(int** image, int w, int h, float sigma){
 	float* H = Gauss1D(sigma,Hsize);
 	
 	return correlate2DSignalSeparated(image, w, h, H, Hsize, H, Hsize);
+}
+
+int** downsample(int** image, int w, int h){
+	int new_w = w/2;
+	int new_h = h/2;
+	int** ret = new int*[new_w];
+	for(int i = 0; i < new_w; i++){
+		ret[i] = new int[new_h];
+	}
+	for(int i = 0; i < new_w; i++){
+		for(int j = 0; j < new_h; j++){
+			ret[i][j] = image[2*i][2*j];
+		}
+	}
+	return ret;
+}
+
+int*** GaussianPyramid(int** image, int w, int h, float sigma, int n){
+	int*** ret = new int**[n];
+	int** next_image = image;
+	int new_w = w;
+	int new_h = h;
+	for(int i = 0; i < n; i++){
+		ret[i] = smoothImageSeparated(next_image, new_w, new_h, sigma);
+		new_w /= 2;
+		new_h /=2;
+		next_image = downsample(ret[i],new_h,new_h);
+	}	
+	return ret;
 }

@@ -19,7 +19,7 @@ float* ReadGraph(char* filename, int& n){
 
 void WriteGraph(char* filename, float* graph, int n){
 	std::ofstream graph_file;
-	graph_file.open(filename);
+	graph_file.open(filename,std::ofstream::out | std::ofstream::trunc);
 	for(int i = 0; i < n; i++){
 		graph_file << graph[i] << std::endl;
 	}

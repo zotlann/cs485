@@ -43,6 +43,10 @@ int main(int argc, char** argv){
 	
 	char* infile;
 	char* outfile;
+	char* xgrad = new char[255];
+	char* ygrad = new char[255];
+	char* gradmag = new char[255];
+	char* thresholded = new char[255];
 	int threshold;
 	int** input_image;
 	int** output_image;
@@ -51,10 +55,18 @@ int main(int argc, char** argv){
 	if(!parseCmdArgs(argc, argv, infile, outfile, threshold)){
 		return 1;
 	}
+	strcpy(xgrad,outfile);strcpy(ygrad,outfile);strcpy(gradmag,outfile);strcpy(thresholded,outfile);
+	strcat(xgrad,"_xgrad.pgm");strcat(ygrad,"_ygrad.pgm");strcat(gradmag,"_gradmagnitude.pgm");strcat(thresholded,"_thresholded.pgm");
 
 	ReadImage(infile, &input_image, w, h, q);
-	output_image = detectEdges(input_image, w, h, threshold);
-	WriteImage(outfile, output_image, q, h, q);
+	int** xgrad_image = horizontalGradient(input_image,w,h);
+	int** ygrad_image = verticalGradient(input_image,w,h);
+	int** gradmag_image = magnitudeImage(xgrad_image, ygrad_image, w, h);
+	int** thresholded_image = thresholdImage(gradmag_image, w, h, threshold);
+	WriteImage(xgrad, xgrad_image, w, h, q);
+	WriteImage(ygrad, ygrad_image, w, h, q);
+	WriteImage(gradmag, gradmag_image, w, h, q);
+	WriteImage(thresholded, thresholded_image, w, h, q);
 
 	return 0;
 }

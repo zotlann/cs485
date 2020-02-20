@@ -18,7 +18,7 @@ float applyMask1DSignal(float* signal, int point, int n, float* H, int Hsize){
 		if(p > n)
 			p_sample = n - 1;
 		//apply the kernel and sum the return value
-		ret+=H[i]*signal[p];
+		ret+=H[i]*signal[p_sample];
 		p++;
 	}
 
@@ -73,7 +73,7 @@ int applyVerticalMask2DSignal(int** signal, int x, int y, int w, int h, float* H
  * applies the given 2D mask at point (x,y) in the given 2D signal
  */
 int apply2DMask2DSignal(int** signal, int x, int y, int w, int h, float** H, int Hsize){
-	int center = Hsize/2+1;
+	int center = Hsize/2;
 	int p_x = x - center;
 	int p_y = y - center;
 
@@ -95,6 +95,7 @@ int apply2DMask2DSignal(int** signal, int x, int y, int w, int h, float** H, int
 			p_y++;
 		}
 		p_x++;
+		p_y = y - center;
 	}
 	return (int) ret;
 }

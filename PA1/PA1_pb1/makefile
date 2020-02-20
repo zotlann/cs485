@@ -5,16 +5,24 @@ CXXFLAGS=-g -Wall -Wformat -Wno-deprecated $(shell pkg-config --cflags opencv4)
 LIBS = $(shell pkg-config --libs opencv4)
 
 # .o Compilation
-O_FILES=main.o image_io.o graph_io.o gauss.o image_util.o
+O_FILES=image_io.o graph_io.o gauss.o image_util.o
 
 # Point to includes of local directories
 INCLUDES=-I../include
+all: blur blur_separated smooth_graph
 
-all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o OCV $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
-
-main.o: ../src/main.cpp
-	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INCLUDES)
+blur: $(O_FILES) blur.o
+	$(CC) $(CXXFLAGS) -o blur $(O_FILES) blur.o $(LIBS) #$(PATHI) $(PATHL)
+blur_separated: $(O_FILES) blur_separated.o
+	$(CC) $(CXXFLAGS) -o blur_separated $(O_FILES) blur_separated.o $(LIBS) #$(PATHI) $(PATHL)
+smooth_graph: $(O_FILES) smooth_graph.o
+	$(CC) $(CXXFLAGS) -o smooth_graph $(O_FILES) smooth_graph.o $(LIBS) #$(PATHI) $(PATHL)
+blur.o: ../src/blur.cpp
+	$(CC) $(CXXFLAGS) -c ../src/blur.cpp -o blur.o $(INCLUDES)
+blur_separated.o: ../src/blur_separated.cpp
+	$(CC) $(CXXFLAGS) -c ../src/blur_separated.cpp -o blur_separated.o $(INCLUDES)
+smooth_graph.o: ../src/smooth_graph.cpp
+	$(CC) $(CXXFLAGS) -c ../src/smooth_graph.cpp -o smooth_graph.o $(INCLUDES)
 image_io.o: ../src/image_io.cpp
 	$(CC) $(CXXFLAGS) -c ../src/image_io.cpp -o image_io.o $(INCLUDES)
 graph_io.o: ../src/graph_io.cpp

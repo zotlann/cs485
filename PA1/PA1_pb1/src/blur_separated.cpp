@@ -3,7 +3,7 @@
 #include "gauss.h"
 #include <iostream>
 #include <cstring>
-#include <opencv4/opencv2/opencv.hpp>
+
 bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sigma){
 	char help_message[256];
 	sprintf(help_message,"%s  -i [input_graph] -o [output_filename] -s [sigma]",argv[0]);
@@ -53,9 +53,8 @@ int main(int argc, char** argv){
 	}
 
 	ReadImage(infile, &input_image, w, h, q);
-	output_image = GaussianPyramid(input_image,w,h,sigma,3)[2];
-
-	WriteImage(outfile, output_image, w/4, h/4, q);
+	output_image = smoothImageSeparated(input_image, w, h, (float)sigma);	
+	WriteImage(outfile, output_image, q, h, q);
 
 	return 0;
 }
