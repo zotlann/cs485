@@ -1,8 +1,8 @@
 CC=g++
 LIBS=
 
-CXXFLAGS=-g -Wall -Wformat -Wno-deprecated $(shell pkg-config --cflags opencv4)
-LIBS = $(shell pkg-config --libs opencv4)
+CXXFLAGS=-g -Wall -Wformat -Wno-deprecated 
+LIBS = 
 
 # .o Compilation
 O_FILES=image_io.o graph_io.o gauss.o image_util.o

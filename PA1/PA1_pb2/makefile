@@ -1,8 +1,8 @@
 CC=g++
 LIBS=
 
-CXXFLAGS=-g -Wall -Wformat -Wno-deprecated $(shell pkg-config --cflags opencv4)
-LIBS = $(shell pkg-config --libs opencv4)
+CXXFLAGS=-g -Wall -Wformat -Wno-deprecated 
+LIBS = 
 
 # .o Compilation
 O_FILES=main.o image_io.o graph_io.o sobel.o image_util.o
@@ -11,7 +11,7 @@ O_FILES=main.o image_io.o graph_io.o sobel.o image_util.o
 INCLUDES=-I../include
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o OCV $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o sobel $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INCLUDES)

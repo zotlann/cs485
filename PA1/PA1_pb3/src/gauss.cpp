@@ -97,9 +97,9 @@ int*** GaussianPyramid(int** image, int w, int h, float sigma, int n){
 	int new_h = h;
 	for(int i = 0; i < n; i++){
 		ret[i] = smoothImageSeparated(next_image, new_w, new_h, sigma);
-		new_w /= 2;
-		new_h /=2;
 		next_image = downsample(ret[i],new_h,new_h);
+		new_w /= 2;
+		new_h /= 2;
 	}	
 	return ret;
 }

@@ -3,8 +3,9 @@
 #include "gauss.h"
 #include <iostream>
 #include <cstring>
-#include <opencv4/opencv2/opencv.hpp>
-bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sigma){
+#include <string>
+
+bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sigma, int &n){
 	char help_message[256];
 	sprintf(help_message,"%s  -i [input_graph] -o [output_filename] -s [sigma]",argv[0]);
 	if(argc<2){
@@ -21,6 +22,10 @@ bool parseCmdArgs(int argc, char** argv, char* &infile, char* &outfile, int &sig
 		}
 		else if((strcmp(argv[i],"-s")==0)){
 			sigma = std::atoi(argv[i+1]);
+			i++;
+		}
+		else if ((strcmp(argv[i],"-n")==0)){
+			n = std::atoi(argv[i+1]);
 			i++;
 		}
 	}
@@ -46,16 +51,26 @@ int main(int argc, char** argv){
 	int sigma;
 	int** input_image;
 	int** output_image;
-	int w,h,q;
+	int w,h,q,n;
 	
-	if(!parseCmdArgs(argc, argv, infile, outfile, sigma)){
+	if(!parseCmdArgs(argc, argv, infile, outfile, sigma, n)){
 		return 1;
 	}
+	std::string out(outfile);
 
 	ReadImage(infile, &input_image, w, h, q);
-	output_image = GaussianPyramid(input_image,w,h,sigma,3)[2];
+	int*** pyramid = GaussianPyramid(input_image, w, h, sigma, 4);
+	std::string filename = out + "_step1.pgm";
+	char* temp = new char[255];
+	strcpy(temp,filename.c_str());
+	WriteImage(temp, pyramid[0], w, h, q);
+	for(int i = 1; i < n; i++){
+		std::string filename = out + "_step" + std::to_string(i+1) + ".pgm";
+		char* temp = new char[255];
+		strcpy(temp,filename.c_str());
+		WriteImage(temp, pyramid[i], w/(2*i), h/(2*i), q);
+	}
 
-	WriteImage(outfile, output_image, w/4, h/4, q);
 
 	return 0;
 }
