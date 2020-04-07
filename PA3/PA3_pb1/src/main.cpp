@@ -1,5 +1,4 @@
 #include "image_io.h"
-#include "graph_io.h"
 #include "sobel.h"
 #include <iostream>
 #include <cstring>

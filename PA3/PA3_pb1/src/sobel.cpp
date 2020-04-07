@@ -17,13 +17,13 @@ int** verticalGradient(int** image, int w, int h){
 }
 
 int** magnitudeImage(int** i1, int** i2, int w, int h){
-	int** ret = new int*[w];
-	for(int i = 0; i < w; i++){
-		ret[i] = new int[h];
+	int** ret = new int*[h];
+	for(int i = 0; i < h; i++){
+		ret[i] = new int[w];
 	}
 
-	for(int i = 0; i < w; i++){
-		for(int j = 0; j < h; j++){
+	for(int i = 0; i < h; i++){
+		for(int j = 0; j < w; j++){
 			int x = i1[i][j];
 			int y = i2[i][j];
 			ret[i][j] = sqrt(x*x+y*y);
@@ -33,12 +33,12 @@ int** magnitudeImage(int** i1, int** i2, int w, int h){
 }
 
 int** thresholdImage(int** image, int w, int h, int threshold){
-	int** ret = new int*[w];
-	for(int i = 0; i < w; i++){
-		ret[i] = new int [h];
+	int** ret = new int*[h];
+	for(int i = 0; i < h; i++){
+		ret[i] = new int [w];
 	}
-	for(int i = 0; i < w; i++){
-		for(int j = 0; j < h; j++){
+	for(int i = 0; i < h; i++){
+		for(int j = 0; j < w; j++){
 			if(image[i][j] > threshold){
 				ret[i][j] = 255;
 			}
