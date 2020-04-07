@@ -1,0 +1,32 @@
+<config>
+	<infile>../assets/1.pgm</infile>
+	<outfile>1_normalized.pgm</outfile>
+	<n_points>4</n_points>
+	<points>
+		<left-eye>
+			<x>26</x>
+			<y>51</y>
+			<xf>10</xf>
+			<yf>20</yf>
+		</left-eye>
+		<right-eye>
+			<x>64</x>
+			<y>50</y>
+			<xf>38</xf>
+			<yf>20</yf>
+		</right-eye>
+		<nose>
+
+			<x>46</x>
+			<y>69</y>
+			<xf>24</xf>
+			<yf>28</yf>
+		</nose>
+		<mouth>
+			<x>46</x>
+			<y>89</y>
+			<xf>24</xf>
+			<yf>36</yf>
+		</mouth>
+	</points>
+</config>
